@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Brooklyn Recycling Redemption</title>
+                <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/4/44/Recycle001.svg">
+            <!--CSS for Map LINK-->
+            <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <!--Link API Site-->
+        <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script> 
+    <script type="text/javascript">
+    (function() {
+    emailjs.init('1DjYiTGDhBhenkd1W'); // Enter Public Key from Email API
+    })();
+    </script>
+<style>
+    /* Map Stlye */
+    #map {
+    height: 500px;
+    margin-top: 2em;
+    margin-left: 3em;
+    margin-right: 3em;
+    margin-bottom: 2em;
+    }
+    #map_box {
+    border-top: 15px solid rgb(78, 80, 82);
+    background-color:#4876b3;
+    border-bottom: 15px solid rgb(78, 80, 82);
+    }
+    /* Main Body */
+    body {
+    text-align: center;
+    }
+    h2, p {
+    color:#4876b3;
+    font-family: sans-serif;
+    }
+    footer {
+    text-align: left;
+    }
+    /* Hide Protected Content */
+    #protected-content {
+    display: none;
+    }
+    /* Contact Section */
+    #contact {
+    text-align: center; 
+    color:#4876b3;
+    font-family: sans-serif;
+    }
+    /* Images and Links */
+    .links {
+    background-color:#4876b3;  ; 
+    border-bottom: 15px solid rgb(78, 80, 82);
+    padding: 10px;
+    }
+    #resources {
+    background-color:#4876b3;  
+    color:rgb(207, 220, 233);
+    border-top: 15px solid rgb(78, 80, 82);
+    }
+    #resources p {
+    color:rgb(207, 220, 233);
+    }
+</style>
+    </head>
+        <body>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Recycle_flag.svg" style="width: 12em; height: 6em">
+            <h2>Brooklyn Recycling Redemption Map</h2>
+            <p>Each location on the map is a recycling redemption center or contains recycling redemption machines.</p>
+        <div id="page">
+    <script> // JS for Password
+    let pass= prompt("Enter Location Zip Code:"); // permitted zips as array:
+    let allowedZips = ["11201", "11202", "11203", "11204", "11205", "11206", "11207", "11208", 
+    "11209", "11210", "11211","11212", "11213", "11214", "11215", "11216", "11217", "11218", 
+    "11219", "11220", "11221", "11223", "11224","11225", "11226", "11228","11229","11230","11231",
+    "11232","11233","11234","11235","11236","11237","11238","11239","11240","11241","11243","11247",
+    "11249","11252","11256",
+    ];
+    if (allowedZips.includes(pass)) {
+        document.getElementById("page").style.display = "block";
+    } else {
+        document.body.innerHTML = "<p>Wrong Zip. This map is for Brooklyn, NY!</p>";
+    }
+    </script>
+<!-- Open Street Map Attribution-->
+    <section id = "map_box">
+        <div id="map"></div>  
+    </section>
+<!-- Link Leaflet JS library-->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> 
+<script> // Map Script
+    // Start Map at BK Setting
+    const can_map = L.map('map').setView([40.680410, -73.935020], 12);
+    //Layer for open maps: 
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Attribution slide (default)
+        attribution: '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(can_map); 
+    //Set Specific Locations: 
+    const can_locations = [
+        { lat: 40.686514, lng: -73.916695, name: "Key Food Supermarket" },
+        { lat: 40.680489, lng: -73.937617, name: "Key Food Supermarket" },
+        { lat: 40.685539, lng: -73.950308, name: "Key Food Supermarket" },
+        { lat: 40.682781, lng: -73.963333, name: "Key Food Supermarket" },
+        { lat: 40.676394, lng: -73.958478, name: "Key Food Supermarket" },
+        { lat: 40.704345, lng: -73.920402, name: "Key Food Supermarket" },
+        { lat: 40.712464, lng: -73.957667, name: "Key Food Supermarket" },
+        { lat: 40.627782, lng: -73.947084, name: "Key Food Supermarket" },
+        { lat: 40.627782, lng: -73.947084, name: "Key Food Supermarket" },
+        { lat: 40.603635, lng: -74.006488, name: "Key Food Supermarket" },
+        { lat: 40.619106, lng: -73.925322, name: "Key Food Supermarket" },
+        { lat: 40.729862, lng: -73.950861, name: "Key Food Supermarket" },
+        { lat: 40.690175, lng: -73.993944, name: "Key Food Supermarket" },
+        { lat: 40.648567, lng: -74.006750, name: "Key Food Supermarket" },
+        { lat: 40.631576, lng: -74.028137, name: "Key Food Supermarket" },
+        { lat: 40.655198, lng: -73.961257, name: "Pioneer Supermarkets" },
+        { lat: 40.684620, lng: -73.913378, name: "Pioneer Supermarkets" },
+        { lat: 40.684245, lng: -73.929023, name: "Halsey Traders Market" },
+        { lat: 40.629522, lng: -73.971403, name: "Thrifty Beverage Center" },
+        { lat: 40.655316, lng: -73.868872, name: "ShopRite Gateway Center" },
+        { lat: 40.705381, lng: -73.938773, name: "Sure We Can" },
+        { lat: 40.670060, lng: -73.921797, name: "Food Bazaar Supermarket" },
+        { lat: 40.665424, lng: -73.901404, name: "Food Bazaar Supermarket" },
+        { lat: 40.700143, lng: -73.910789, name: "Food Bazaar Supermarket" },
+        { lat: 40.702906, lng: -73.910789, name: "Food Bazaar Supermarket" },
+        { lat: 40.663198, lng: -73.944980, name: "Food Universe Marketplace" },
+        { lat: 40.662705, lng: -73.927213, name: "Bravo Supermarkets" },
+        { lat: 40.662705, lng: -73.927213, name: "Bravo Supermarkets" },
+        { lat: 40.649666, lng: -73.888711, name: "Bravo Supermarkets" },
+        { lat: 40.728188, lng: -73.953033, name: "Associated Supermarket" },
+        { lat: 40.661623, lng: -73.915144, name: "Fine Fare Supermarket" },
+        { lat: 40.668767, lng: -73.909493, name: "C Town Supermarket" },
+        { lat: 40.672159, lng: -73.894360, name: "C Town Supermarket" },
+        { lat: 40.678731, lng: -73.888553, name: "C Town Supermarket" },
+        { lat: 40.694980, lng: -73.919776, name: "C Town Supermarket" },
+        { lat: 40.712450, lng: -73.957668, name: "C Town Supermarket" },
+        { lat: 40.652344, lng: -74.010197, name: "Food Universe Marketplace"},
+        { lat: 40.619608, lng: -74.032153, name: "Food Universe Marketplace"},
+    ];
+    // Apply to map: 
+    can_locations.forEach(can_location => {
+    // Apply lat/lng to map:
+        const name = L.marker([can_location.lat, can_location.lng]).addTo(can_map);
+    // Apply Name to map: 
+        name.bindPopup(can_location.name);
+    });
+</script>
+
+<!--CONTACT-->
+<h2>Found a location we don't have listed? Let us know!</h2>
+    <section id = "contact">
+        <div id="form-container">
+            <form id="submission">
+                <label for="name">Name/Nombre:</label>
+            <br>
+                <input type="text" id="name" name="name" required>
+            <br>
+                <label for="email">Email/Correo Electrónico: </label>
+            <br>
+                <input type="email" id="email" name="email" required>
+            <br>
+                <label for="number">Phone/Número:</label>
+            <br>
+                <input type="text" id="number" name="number" required>
+            <br>
+                <label for="message">Message/Mensaje:</label>
+            <br>
+                <textarea id="message" name="message" required></textarea>
+            <br>
+                <button type="submit">Submit/Enviar</button>
+            </form>
+        </div>
+        <p>Email form functionality on this site is powered by <a href="https://www.emailjs.com/" target="_blank">EmailJS</a>.</p>
+        <br>
+    </section> 
+
+<script> // Script for Contact
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('submission');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // No default input
+            // Function to collect input elements
+            const formDetails = new FormData(form);
+            const details = {
+                name: formDetails.get('name'),
+                email: formDetails.get('email'),
+                number: formDetails.get('number'),
+                message: formDetails.get('message'),
+            };
+// Send using EmailJs API https://dashboard.emailjs.com/admin/
+// Enter SERVICE && TEMPLATE ID with DETAILS: 
+            emailjs.send('service_34bhb27', 'template_uh778m1', details)
+                .then(response => {
+                    console.log('Success:', response.status, response.text);
+                    alert('Thank You! You will hear from us shortly');
+                }, error => {
+                    console.error('Failed:', error);
+                    alert('Error. Please Try again.');
+                });
+        });
+    });
+</script>
+<!--Links and resources-->
+<section id="resources">
+    <h1>Recycling Resources and Regulations</h1>
+        <div class="links">
+            <a target="_blank" href="https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill/get-money-back#:~:text=What%20is%20the%20Act%3F,water%20and%20wine%20cooler%20containers.">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/New_York_State_wordmark.svg/434px-New_York_State_wordmark.svg.png?20210109183721" style="width: 6em; height: 6em; border: 5px solid rgb(167, 186, 186)"></a>
+            <p>New York State Returnable Container Act</p>
+                <p>
+            <a target="_blank" href="https://portal.311.nyc.gov/article/?kanumber=KA-02477#:~:text=You%20pay%20a%20five%20cent,to%20accept%20containers%20for%20refund.">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/NYC_Logo_Wolff_Olins.svg" style="width: 6em; height: 6em;border: 5px solid rgb(167, 186, 186)"></a>
+            <p>NYC Bottle Refund</p>
+                <p>
+            <a target="_blank" href="https://www.bottlebill.org/index.php/current-and-proposed-laws/usa/new-york">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Recycle001.svg" style="width: 6em; height: 6em; border: 5px solid rgb(167, 186, 186)"></a>
+            <p>NYC Bottle Bill Resource Guide</p>
+        </div>
+    </section>
+        <footer>
+            <p><strong>Some Important Notes:</strong></p>
+            <p>OpenStreetMap<a href="/copyright#trademarks"></a> 
+            is <i>open data</i>, licensed under the
+            <a href="https://opendatacommons.org/licenses/odbl/">
+            Open Data Commons Open Database License</a> (ODbL) by the 
+            <a href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).</p>
+            <p>This webpage is not endorsed by or affiliated with the City of New York. The <a href="https://commons.wikimedia.org/wiki/File:NYC_Logo_Wolff_Olins.svg">NYC logo by Wolff Olins</a> is in the public domain.
+            The link to the NYC 311 portal is provided solely as a resource for recycling information.</p>
+            <p>This webpage is not endorsed by or affiliated with the State of New York. The <a href="https://commons.wikimedia.org/wiki/File:New_York_State_wordmark.svg">New York State wordmark</a> is in the public domain.
+            The link to the DEC page is provided solely as a resource for recycling and bottle bill information.</p>
+            <p>This page is not affiliated with the Bottle Bill Resource Guide, but it references its content as a resource for additional information.</p>
+            <p>Image: <a href="https://commons.wikimedia.org/wiki/File:Recycling_symbol2.svg" target="_blank"><em>Recycling symbol</em></a> by User:Liquid 2003. This image is in the public domain.</p>
+            <p>Image: <a href="https://commons.wikimedia.org/wiki/File:Recycle_flag.svg" target="_blank"><em>Recycle flag</em></a> by Carnby. This image is in the public domain.</p>
+        </footer>
+        </div>
+    </body>
+</html>
